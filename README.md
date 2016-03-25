@@ -160,9 +160,7 @@ build/index.html
     npm install --save-dev babel-preset-es2015
     npm install --save-dev babel-preset-react
     
-2. 配置 Webpack 来使用加载器
-
-webpack.config.js
+2. 配置webpack.config.js来使用加载器
 
     var path = require('path');
 
@@ -196,7 +194,140 @@ Webpack允许像加载任何代码一样加载 CSS。你可以选择你所需要
 css-loader会遍历 CSS 文件，然后找到 url() 表达式然后处理他们，
 style-loader 会把原来的 CSS 代码插入页面中的一个 style 标签中。
 
+1. 安装这两个加载器：
 
+    npm install css-loader style-loader --save-dev
+
+2. 加载器配置加到 Webpack.config.js 文件中   
+
+    var path = require('path');
+
+    module.exports = {
+      entry: ['webpack/hot/dev-server', path.resolve(__dirname, 'app/main.js')],
+      output: {
+        path: path.resolve(__dirname, 'build'),
+        filename: 'bundle.js',
+      },
+      module: {
+        loaders: [
+          {
+            test: /\.jsx?$/, // 用正则来匹配文件路径，这段意思是匹配 js 或者 jsx
+            loader: 'babel', // 加载模块 "babel" 是 "babel-loader" 的缩写
+            exclude: /node_modules/,
+            query: {
+              presets: ['es2015', 'react']
+            }
+          },
+          { 
+            test: /\.css$/, // Only .css files
+            loader: "style!css" // Run both loaders
+          }
+        ]
+      }
+    }
+
+# 加载 CSS 文件
+加载一个 CSS 文件就和加载其他文件一样简单
+
+main.js
+
+    import './main.css';
+    // Other code
+    
+Component.jsx
+
+    import './Component.css';
+    import React from 'react';
+
+    export default React.createClass({
+      render: function () {
+        return <h1>Hello world!</h1>
+      }
+    });
+
+# CSS 加载策略
+根据你的应用，你可能会考略三种策略。另外，你需要考虑把一些基础的 CSS 内联到初始容器中（index.html）
+
+## 所有合并成一个
+在你的主入口文件中个，比如 app/main.js 你可以为整个项目加载所有的 CSS：
+
+app/main.js
+
+  import './project-styles.css';
+  // 其他 JS 代码
+  
+The CSS is included in the application bundle and does not need to download.
+
+## 懒加载
+
+如果你想发挥应用中多重入口文件的优势，你可以在每个入口点包含各自的 CSS：
+
+app/main.js
+
+    import './style.css';
+    // 其他 JS 代码
+    
+app/entryA/main.js
+
+    import './style.css';
+    // 其他 JS 代码
+    
+app/entryB/main.js
+
+    import './style.css';
+    // 其他 JS 代码
+
+You divide your modules by folders and include both CSS and JavaScript files in those folders. 
+Again, the imported CSS is included in each entry bundle when running in production.
+
+你把你的模块用文件夹分离，每个文件夹有各自的 CSS 和 JavaScript 文件。
+再次，当应用发布的时候，导入的 CSS 已经加载到每个入口文件中。
+
+## 具体的组件
+你可以根据这个策略为每个组件创建 CSS 文件，可以让组件名和 CSS 中的 class 使用一个命名空间，
+来避免一个组件中的一些 class 干扰到另外一些组件的 class。
+
+app/components/MyComponent.css
+
+    .MyComponent-wrapper {
+      background-color: #EEE;
+    }
+    
+app/components/MyComponent.jsx
+
+    import './MyComponent.css';
+    import React from 'react';
+
+    export default React.createClass({
+      render: function () {
+        return (
+          <div className="MyComponent-wrapper">
+            <h1>Hello world</h1>
+          </div>
+        )
+      }
+    });
+
+## 使用内联样式取代 CSS 文件
+在 “React Native” 中你不再需要使用任何 CSS 文件，你只需要使用 style 属性，可以把你的 CSS 定义成一个对象，那样就可以根据你的项目重新来考略你的 CSS 策略。
+
+app/components/MyComponent.jsx
+
+    import React from 'react';
+
+    var style = {
+      backgroundColor: '#EEE'
+    };
+
+    export default React.createClass({
+      render: function () {
+        return (
+          <div style={style}>
+            <h1>Hello world</h1>
+          </div>
+        )
+      }
+    });
 
 
 # 参考
