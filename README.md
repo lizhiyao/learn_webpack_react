@@ -1,3 +1,7 @@
+# Webpack入门
+
+[Webpack入门 demo] (https://github.com/lizhiyao/learn_webpack)
+
 # npm run build
 npm 是一个非常好用的用来编译的指令，通过 npm 你可以不用去担心项目中使用了什么技术，
 
@@ -83,7 +87,7 @@ npm 是一个非常好用的用来编译的指令，通过 npm 你可以不用�
 
 这会触发一个默认的我们不能控制的 index.html ，它同样会触发一个允许iFrame中显示重合并的过程。
 
-# 引入文件
+# Webpack引入文件
 Webpack 允许你使用不同的模块类型
 
 ## ES6 模块
@@ -101,3 +105,90 @@ Webpack 允许你使用不同的模块类型
     });
     
 Webpack 只是一个模块合并！也就是说你可以设置他去加载任何你写的匹配，只要有一个加载器。
+
+# 安装 React JS
+
+    npm install --save react
+    npm install --save react-dom
+
+# 在代码中使用 ReactJS
+
+component.jsx
+
+    import React from 'react';
+
+    export default class Hello extends React.Component {
+      render() {
+        return <h1>Hello world</h1>;
+      }
+    }
+    
+main.js
+
+    import React from 'react';
+    import Hello from './component';
+
+    main();
+
+    function main() {
+        React.render(<Hello />, document.getElementById('app'));
+    }
+    
+build/index.html
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta charset="UTF-8"/>
+      </head>
+      <body>
+        <div id="app"></div>
+
+        <script src="http://localhost:8080/webpack-dev-server.js"></script>
+        <script src="bundle.js"></script>
+      </body>
+    </html>
+
+# 转换 JSX
+为了能够使用 JSX 语法，需要用 Webpack 来转码你的 JavaScript，
+这是加载器的工作，我们可以使用一个很好用也有很多功能的 Babel。
+
+1. 安装babel-loader
+    
+    npm install --save-dev babel-loader
+    npm install --save-dev babel-core
+    npm install --save-dev babel-preset-es2015
+    npm install --save-dev babel-preset-react
+    
+2. 配置 Webpack 来使用加载器
+
+webpack.config.js
+
+    var path = require('path');
+
+    module.exports = {
+      entry: ['webpack/hot/dev-server', path.resolve(__dirname, 'app/main.js')],
+      output: {
+        path: path.resolve(__dirname, 'build'),
+        filename: 'bundle.js',
+      },
+      module: {
+        loaders: [
+          {
+            test: /\.jsx?$/, // 用正则来匹配文件路径，这段意思是匹配 js 或者 jsx
+            loader: 'babel', // 加载模块 "babel" 是 "babel-loader" 的缩写
+            exclude: /node_modules/,
+            query: {
+              presets: ['es2015', 'react']
+            }
+          }
+        ]
+      }
+    }
+
+3. 运行 npm run dev，然后刷新页面就可以看到修改
+
+
+# 参考
+
+[React 和 Webpack 小书] (https://hainuo.gitbooks.io/react-webpack-cookbook/content/index.html)
