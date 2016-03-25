@@ -188,6 +188,16 @@ webpack.config.js
 
 3. 运行 npm run dev，然后刷新页面就可以看到修改
 
+# 准备加载 CSS
+Webpack允许像加载任何代码一样加载 CSS。你可以选择你所需要的方式，
+但是你可以为每个组件把所有你的 CSS 加载到入口主文件中来做任何事情。
+
+加载 CSS 需要 css-loader 和 style-loader，他们做两件不同的事情，
+css-loader会遍历 CSS 文件，然后找到 url() 表达式然后处理他们，
+style-loader 会把原来的 CSS 代码插入页面中的一个 style 标签中。
+
+
+
 
 # 参考
 

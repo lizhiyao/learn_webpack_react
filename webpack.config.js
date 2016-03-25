@@ -15,6 +15,10 @@ module.exports = {
         query: {
           presets: ['es2015', 'react']
         }
+      },
+      { 
+        test: /\.css$/, // Only .css files
+        loader: "style!css" // Run both loaders
       }
     ]
   }
