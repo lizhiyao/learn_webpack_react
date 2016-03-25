@@ -16,10 +16,14 @@ module.exports = {
           presets: ['es2015', 'react']
         }
       },
-      { 
+      {
         test: /\.css$/, // Only .css files
         loader: "style!css" // Run both loaders
       }
     ]
+  },
+  resolve: {
+    // resolve属性中的extensions数组中用于配置程序可以自行补全哪些后缀
+    extensions: ['', '.js', '.jsx']
   }
 }
