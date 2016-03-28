@@ -185,6 +185,10 @@ build/index.html
             }
           }
         ]
+      },
+      resolve: {
+        // resolve属性中的extensions数组中用于配置程序可以自行补全哪些后缀
+        extensions: ['', '.js', '.jsx']
       }
     }
 
