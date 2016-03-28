@@ -126,7 +126,7 @@ component.jsx
 main.js
 
     import React from 'react';
-    import Hello from './component';
+    import Hello from './component/hello';
 
     main();
 
@@ -159,6 +159,10 @@ build/index.html
     npm install --save-dev babel-core
     npm install --save-dev babel-preset-es2015
     npm install --save-dev babel-preset-react
+    
+或者
+ 
+    npm install --save-dev babel-loader babel-core babel-preset-es2015 babel-preset-react
     
 配置webpack.config.js来使用加载器
 
