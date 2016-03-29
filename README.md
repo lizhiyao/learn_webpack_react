@@ -112,8 +112,7 @@ Webpack 只是一个模块合并！也就是说你可以设置他去加载任何
 
 # 安装 React JS
 
-    npm install --save react
-    npm install --save react-dom
+    npm install --save react react-dom
 
 # 在代码中使用 ReactJS
 
