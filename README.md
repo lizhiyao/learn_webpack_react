@@ -12,6 +12,10 @@ npm 是一个非常好用的用来编译的指令，通过 npm 你可以不用�
 安装webpack
   
     npm i webpack --save-dev
+    
+或者
+
+    npm i webpack --save-dev --registry=https://registry.npm.taobao.org
 
 把下面的内容添加到 package.json中。
 
